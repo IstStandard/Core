@@ -1,16 +1,16 @@
-using Core.Communicators;
-using Core.Models;
-using Eah.source.auth.attributes;
+using Core.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using StandardShared.Communicators;
+using StandardShared.Models;
 
 namespace Core.Controllers;
 
 [ApiController]
 [Route("/api/auth")]
-public class AuthController : ControllerBase
+public class SarfController : ControllerBase
 {
     private readonly SarfCommunicator _sarfCommunicator;
-    public AuthController(SarfCommunicator sarfCommunicator)
+    public SarfController(SarfCommunicator sarfCommunicator)
     {
         _sarfCommunicator = sarfCommunicator;
     }

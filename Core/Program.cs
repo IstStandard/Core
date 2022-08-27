@@ -1,13 +1,15 @@
-using Core.Communicators;
 using Core.Database;
 using Core.Utils;
+using StandardShared.Communicators;
+using StandardShared.Misc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationContext>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<SecurityProfiler>();
-builder.Services.AddScoped<SarfCommunicator>(); // TODO: To singleton
+builder.Services.AddScoped<RequestInfoGeneric>();
+builder.Services.AddScoped<RequestInfo>();
+builder.Services.AddScoped<SarfCommunicator>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -2,13 +2,13 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /opt/build
 
 COPY Core/ Core/
-WORKDIR Core
-# COPY StandardShared ../StandardShared
-# RUN apt update && apt install python3 -y
-# COPY shared_path_fix.py .
+COPY StandardShared StandardShared/
 
-# RUN python3 shared_path_fix.py Sarf.sln Sarf.csproj ../StandardShared/StandardShared/StandardShared.csproj
-# CMD sleep 36500
+RUN apt update && apt install python3 -y
+WORKDIR Core
+COPY shared_path_fix.py .
+
+RUN python3 shared_path_fix.py Core.sln ./Core/Core.csproj ../StandardShared/StandardShared/StandardShared.csproj
 RUN dotnet restore Core.sln
 
 RUN mkdir /opt/app

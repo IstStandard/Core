@@ -1,13 +1,9 @@
-﻿namespace Eah.source.auth.attributes;
-
-using System;
-using System.Linq;
-using System.Net;
-using Core.Communicators;
-using Microsoft.AspNetCore.Http.Features;
+﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using StandardShared.Communicators;
 
+namespace Core.Attributes;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthNeededAttribute : Attribute, IAuthorizationFilter
@@ -15,7 +11,7 @@ public class AuthNeededAttribute : Attribute, IAuthorizationFilter
     private SarfCommunicator _sarfCommunicator = null!;
     public void OnAuthorization(AuthorizationFilterContext filterContext)
     {
-        _sarfCommunicator = filterContext.HttpContext.RequestServices.GetService(typeof(SarfCommunicator)) as SarfCommunicator;
+        _sarfCommunicator = (SarfCommunicator)filterContext.HttpContext.RequestServices.GetService(typeof(SarfCommunicator)) ?? throw new InvalidOperationException();
 
         filterContext.HttpContext.Request.Headers.TryGetValue("Authorization", out var authTokens);
         var token = authTokens.FirstOrDefault();
